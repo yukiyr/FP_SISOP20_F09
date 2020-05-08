@@ -33,8 +33,8 @@ Surabaya
 2020
 
 **Command**
-1. Date
-2. Expand
-3. Cal
-4. Sort
-5. Zip
+- [x] Date
+- [ ] Expand
+- [ ] Cal
+- [x] Sort
+- [ ] Zip
