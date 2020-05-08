@@ -75,7 +75,8 @@ expand2(int fp) {
 		{
 			if((temp[j] == '^') && (temp[j+1] == 'I')
 			{
-				temp[j] = '';
+			        char strr[] = "";
+                                temp[j] = strr[0];
 				temp[j+1] = '\t';
 			}
 		}
