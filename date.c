@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 			utc_day();  // (UTC format)
 		}
 		else{
-			printf(1,"Invalid command. Please try again.\n");
+			printf(1,"Invalid\n");
 		}
 	}
 	exit();
@@ -52,9 +52,6 @@ int check_leap(int y)
 	if((y%400==0) || (y%4==0)){
 		result=1;
 	}
-	else if(y%100==0){
-		result=0;
-	}
 	else{ 
 		result=0;
 	}
@@ -62,9 +59,9 @@ int check_leap(int y)
 }
 
 // cek nama bulan
-void month_name(int x)
+void month_name(int m)
 {
-	switch(x)
+	switch(m)
 	{
 		case 1:
 			printf(1," Jan");
@@ -107,11 +104,10 @@ void month_name(int x)
 // cek nama hari
 void day_name(int x,int y,int z)
 {
-	int initial_day=4;
-	int count=0;	
-	if(x>1970)
+	int initial=4, count=0;
+	if(x>1900)
 	{
-		for(int i=1970;i<x;i++)
+		for(int i=1900;i<x;i++)
 		{
 			if(check_leap(i)){
 				count += 366;
@@ -145,8 +141,8 @@ void day_name(int x,int y,int z)
 			count += 30;
 		}
 	}
-	int final_day = (initial_day+count+z-1)%7;
-	switch(final_day)
+	int final = (initial+count+z-1)%7;
+	switch(final)
 	{
 		case 0:
 			printf(1,"Ming");
@@ -177,7 +173,7 @@ void time()
 {
 	struct rtcdate r;
 	if (date(&r)){
-		printf(2, "date failed\n");
+		printf(1, "Failed\n");
 		exit();
 	}
 	if(r.minute+30>59){
@@ -199,7 +195,7 @@ void yesterday()
 {
 	struct rtcdate r;
 	if (date(&r)){
-		printf(2, "date failed\n");
+		printf(1, "Failed\n");
 		exit();
 	}
 
@@ -301,7 +297,7 @@ void today()
 	struct rtcdate r;
 	if (date(&r)) 
 	{
-		printf(2, "date failed\n");
+		printf(1, "Failed\n");
 		exit();
 	}
 	day_name(r.year,r.month,r.day);	 // hari
@@ -317,7 +313,7 @@ void tomorrow()
 	struct rtcdate r;
 	if (date(&r)) 
 	{
-		printf(2, "date failed\n");
+		printf(1, "Failed\n");
 		exit();
 	}
 
@@ -331,8 +327,9 @@ void tomorrow()
 				r.month += 1;
 				r.day = 1;
 			}
-			else
+			else{
 				r.day += 1;
+			}
 		}
 		else
 		{
@@ -341,8 +338,9 @@ void tomorrow()
 				r.month += 1;
 				r.day = 1;
 			}
-			else
+			else{
 				r.day += 1;
+			}
 		}
 	}
 
@@ -388,8 +386,9 @@ void tomorrow()
 					r.month += 1;
 					r.day = 1;
 				}
-				else
+				else{
 					r.day += 1;
+				}
 			}
 			else
 			{
@@ -398,8 +397,9 @@ void tomorrow()
 					r.month += 1;
 					r.day = 1;
 				}
-				else
+				else{
 					r.day += 1;
+				}
 			}
 		}
 	}
@@ -440,7 +440,7 @@ void particular_day(char *x)
 	}
 	if(flag==0)
 	{
-		printf(1,"date: invalid date %s\n",x);
+		printf(1,"Invalid date\n");
 		exit();
 	}
 
@@ -458,9 +458,9 @@ void particular_day(char *x)
 	{
 		d += (*(x+i) - '0')*power(10,9-i);
 	}	
-	if((m>12)||(d>31)||(m<1)||(d<1)||(y<1970))
+	if((m>12)||(d>31)||(m<1)||(d<1)||(y<1900))
 	{
-		printf(1,"date: invalid date %s\n",x);
+		printf(1,"Invalid date\n");
 		exit();
 	}	
 	else if(m==2)
@@ -471,13 +471,13 @@ void particular_day(char *x)
 			{
 				if(d>29)
 				{
-					printf(1,"date: invalid date %s\n",x);
+					printf(1,"Invalid date\n");
 					exit();
 				}
 			}
 			else
 			{
-				printf(1,"date: invalid date %s\n",x);
+				printf(1,"Invalid date\n");
 				exit();
 			}
 		}
@@ -493,7 +493,7 @@ void utc_day()
 	struct rtcdate r;
 	if (date(&r)) 
 	{
-		printf(2, "date failed\n");
+		printf(1, "Failed\n");
 		exit();
 	}
 	day_name(r.year,r.month,r.day);	 // hari
