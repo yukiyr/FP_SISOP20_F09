@@ -1,8 +1,7 @@
-#include "types.h"  // this file has all the datatypes
-#include "user.h"   // this file has the prototypes of all the system calls
-#include "date.h"   // this file contains definition of struct rtcdate
+#include "types.h"  // datatypes
+#include "user.h"   // prototypes system calls
+#include "date.h"   // struct rtcdate
 
-// prototypes of all the functions used
 long long power(int,int);
 int check_leap(int);
 void month_name(int);
@@ -15,200 +14,220 @@ void particular_day(char *);
 void utc_day(void);
 void day(char *);
 
-// main
 int main(int argc, char *argv[])
 {
-	// if user only types date in the command prompt
-	if(argc==1)
-		today();  // this function prints today's date and current time (IST format)
+	if(argc==1){
+		today();  // (IST format)
+	}
 	else
 	{
-		// if user uses -d option with the date command
-		if((argc==3)&&(strcmp("-d",*(argv+1))==0))
-			day(*(argv+2));  // this function checks which option is chosen by user
-					 // it then calls a suitable function to implement that option
-
-		// if user uses -u option
-		else if((argc==2)&&(strcmp("-u",*(argv+1))==0))
-			utc_day();  // this function prints today's date and current time (UTC format)
-
-		// if the user types an invalid command
-		else
+		if((argc==3)&&(strcmp("-d",*(argv+1))==0)){
+			day(*(argv+2));  
+		}
+		else if((argc==2)&&(strcmp("-u",*(argv+1))==0)){
+			utc_day();  // (UTC format)
+		}
+		else{
 			printf(1,"Invalid command. Please try again.\n");
+		}
 	}
-exit();
+	exit();
 }
 
-// this function calculate a power b
+// hitung pangkat
 long long power(int x,int y)
 {
-	long long res = 1;
+	long long number = 1;
 	for(int i=0;i<y;i++)
 	{
-		res = res * x;
+		number=number*x;
 	}
-	return(res);
+	return(number);
 }
 
-// this function whether the current year is a leap year
-int check_leap(int x)
+// cek tahun kabisat
+int check_leap(int y)
 {
-	int flag = 0;
-	if(x%400==0)
-		flag = 1;
-	else if(x%100==0)
-		flag = 0;
-	else if(x%4==0)
-		flag = 1;
-	else 
-		flag = 0;
-	return(flag);
+	int result=0;
+	if((y%400==0) || (y%4==0)){
+		result=1;
+	}
+	else if(y%100==0){
+		result=0;
+	}
+	else{ 
+		result=0;
+	}
+	return(result);
 }
 
-// this function prints the name of the month of the year
+// cek nama bulan
 void month_name(int x)
 {
 	switch(x)
 	{
-		case 1:printf(1," Jan");
-		       break;
-		case 2:printf(1," Feb");
-		       break;
-		case 3:printf(1," Mar");
-		       break;
-		case 4:printf(1," Apr");
-		       break;
-		case 5:printf(1," Mei");
-		       break;
-		case 6:printf(1," Jun");
-		       break;
-		case 7:printf(1," Jul");
-		       break;
-		case 8:printf(1," Agt");
-		       break;
-		case 9:printf(1," Sep");
-		       break;
-		case 10:printf(1," Okt");
-		       break;
-		case 11:printf(1," Nov");
-		       break;
+		case 1:
+			printf(1," Jan");
+			break;
+		case 2:
+			printf(1," Feb");
+		       	break;
+		case 3:
+			printf(1," Mar");
+		       	break;
+		case 4:
+			printf(1," Apr");
+		       	break;
+		case 5:
+			printf(1," Mei");
+		       	break;
+		case 6:
+			printf(1," Jun");
+		       	break;
+		case 7:
+			printf(1," Jul");
+		       	break;
+		case 8:
+			printf(1," Agt");
+		       	break;
+		case 9:
+			printf(1," Sep");
+		       	break;
+		case 10:
+			printf(1," Okt");
+		       	break;
+		case 11:
+			printf(1," Nov");
+		       	break;
 		case 12:printf(1," Des");
 		       break;
 	}
 }
 
-// this function prints the name of the day of the week
+// cek nama hari
 void day_name(int x,int y,int z)
 {
-	int initial_day = 4;
-	int count = 0;	
+	int initial_day=4;
+	int count=0;	
 	if(x>1970)
 	{
 		for(int i=1970;i<x;i++)
 		{
-			if(check_leap(i))
+			if(check_leap(i)){
 				count += 366;
-			else
+			}
+			else{
 				count += 365;
+			}
 		}
 	}
 	for(int i=1;i<y;i++)
 	{
 		if(i==2)
 		{
-			if(check_leap(x))
+			if(check_leap(x)){
 				count += 29;
-			else
+			}
+			else{
 				count += 28;
+			}
 		}
-		else if((i<8)&&(i%2==1))
+		else if((i<8)&&(i%2==1)){
 			count += 31;
-		else if((i<8)&&(i%2==0))
+		}
+		else if((i<8)&&(i%2==0)){
 			count += 30;
-		else if((i>=8)&&(i%2==0))
+		}
+		else if((i>=8)&&(i%2==0)){
 			count += 31;
-		else
+		}
+		else{
 			count += 30;
+		}
 	}
 	int final_day = (initial_day+count+z-1)%7;
 	switch(final_day)
 	{
-		case 0:printf(1,"Ming");
-		       break;
-		case 1:printf(1,"Sen");
-		       break;
-		case 2:printf(1,"Sel");
-		       break;
-		case 3:printf(1,"Rab");
-		       break;
-		case 4:printf(1,"Kam");
-		       break;
-		case 5:printf(1,"Jum");
-		       break;
-		case 6:printf(1,"Sab");
-		       break;
+		case 0:
+			printf(1,"Ming");
+		       	break;
+		case 1:
+			printf(1,"Sen");
+		       	break;
+		case 2:
+			printf(1,"Sel");
+		       	break;
+		case 3:
+			printf(1,"Rab");
+		       	break;
+		case 4:
+			printf(1,"Kam");
+		       	break;
+		case 5:
+			printf(1,"Jum");
+		       	break;
+		case 6:
+			printf(1,"Sab");
+		       	break;
 	 }
 }
 
-// this function prints the current time in IST format
+// IST format
 void time()
 {
 	struct rtcdate r;
-	if (date(&r))
-	{
+	if (date(&r)){
 		printf(2, "date failed\n");
 		exit();
 	}
-	if(r.minute+30>59)
-	{
+	if(r.minute+30>59){
 		r.hour += 6;
 		r.minute = r.minute+30-59;
 	}
-	else
-	{
+	else{
 		r.hour += 5;
 		r.minute += 30;
 	}
-	if(r.hour>=24)
+	if(r.hour>=24){
 		r.hour -= 24;
+	}
 	printf(1," %d:%d:%d",r.hour,r.minute,r.second);
 }
 
+// hari kemarin
 void yesterday()
 {
 	struct rtcdate r;
-	if (date(&r)) 
-	{
+	if (date(&r)){
 		printf(2, "date failed\n");
 		exit();
 	}
 
-	// if month is march
-	if(r.month == 3)
-	{
+	// bulan maret
+	if(r.month == 3){
 		if(check_leap(r.year))
 		{
-			if(r.day==1)
-			{
+			if(r.day==1){
 				r.month -= 1;
 				r.day = 29;
 			}
-			else
+			else{
 				r.day -= 1;
+			}
 		}
 		else
 		{
-			if(r.day==1)
-			{
+			if(r.day==1){
 				r.month -= 1;
 				r.day = 28;
 			}
-			else
+			else{
 				r.day -= 1;
+			}
 		}
 	}
 
-	// if date is 1st Jan
+	// 1 januari
 	else if((r.day==1)&&(r.month==1))
 	{
 		r.month = 12;
@@ -227,8 +246,9 @@ void yesterday()
 					r.month -= 1;
 					r.day = 31;
 				}
-				else
+				else{
 					r.day -= 1;
+				}
 			}
 			else
 			{
@@ -237,8 +257,9 @@ void yesterday()
 					r.month -= 1;
 					r.day = 30;
 				}
-				else
+				else{
 					r.day -= 1;
+				}
 			}
 		}
 		else
@@ -250,8 +271,9 @@ void yesterday()
 					r.month -= 1;
 					r.day = 31;
 				}
-				else
+				else{
 					r.day -= 1;
+				}
 			}
 			else
 			{
@@ -260,20 +282,20 @@ void yesterday()
 					r.month -= 1;
 					r.day = 30;
 				}
-				else
+				else{
 					r.day -= 1;
+				}
 			}
 		}
 	}
-	day_name(r.year,r.month,r.day);  // prints the name of yesterday's day of the week
-	month_name(r.month);  // prints the name of the yesterday's month of the year
-	printf(1," %d",r.day);  // prints yesterday's date
-	time();  // prints the current time (IST format)
-	printf(1," IST");
-	printf(1," %d\n",r.year);  // prints yesterday's year
+	day_name(r.year,r.month,r.day);  // hari kemarin
+	month_name(r.month);  // bulan kemarin
+	printf(1," %d",r.day);  // tanggal kemarin
+	time();  // waktu kemarin
+	printf(1," IST %d\n",r.year);  // tahun kemarin
 }
 	     
-// this function prints today's date and current time (IST format)
+// hari ini
 void today()
 {
 	struct rtcdate r;
@@ -282,15 +304,14 @@ void today()
 		printf(2, "date failed\n");
 		exit();
 	}
-	day_name(r.year,r.month,r.day);	 // prints the name of day of the week
-	month_name(r.month);  // prints the name of the month of the year
-	printf(1," %d",r.day);  // prints the today's date
-	time();  // prints the current time (IST format)
-	printf(1," IST");
-	printf(1," %d\n",r.year);  // prints the current year
+	day_name(r.year,r.month,r.day);	 // hari
+	month_name(r.month);  // bulan
+	printf(1," %d",r.day);  // tanggal
+	time();  // waktu
+	printf(1," IST %d\n",r.year);  // tahun
 }
 
-// this function prints tomorrow's date and time (IST format)
+// hari besok
 void tomorrow()
 {
 	struct rtcdate r;
@@ -300,7 +321,7 @@ void tomorrow()
 		exit();
 	}
 
-	// if month is Feb
+	// bulan Februari
 	if(r.month == 2)
 	{
 		if(check_leap(r.year))
@@ -325,7 +346,7 @@ void tomorrow()
 		}
 	}
 
-	// if the date is 31st Dec
+	// 31 Desember
 	else if((r.day==31)&&(r.month==12))
 	{
 		r.month = 1;
@@ -382,15 +403,14 @@ void tomorrow()
 			}
 		}
 	}
-	day_name(r.year,r.month,r.day);  // prints the name of tomorrow's day of the week
-	month_name(r.month);  // prints the name of the tomorrow's month of the year
-	printf(1," %d",r.day);  // prints tomorrow's date
-	time();  // prints the current time (IST format)
-	printf(1," IST");
-	printf(1," %d\n",r.year);  // prints tomorrow's year
+	day_name(r.year,r.month,r.day);  // hari besok
+	month_name(r.month);  // bulan besok
+	printf(1," %d",r.day);  // tanggal besok
+	time();  // waktu besok
+	printf(1," IST %d\n",r.year); // tahun besok
 }
 
-// if user uses -d option with a particular date
+// tanggal tertentu
 void particular_day(char *x)
 {
 	int flag = 1;
@@ -423,9 +443,9 @@ void particular_day(char *x)
 		printf(1,"date: invalid date %s\n",x);
 		exit();
 	}
-	int y=0;
-	int m=0;
-	int d=0;
+
+	int y=0, m=0, d=0;
+
 	for(int i=0;i<4;i++)
 	{
 		y += (*(x+i) - '0')*power(10,3-i);
@@ -458,18 +478,16 @@ void particular_day(char *x)
 			else
 			{
 				printf(1,"date: invalid date %s\n",x);
-					exit();
+				exit();
 			}
 		}
 	}			
 	day_name(y,m,d);
 	month_name(m);
-	printf(1," %d",d);
-	printf(1," 00:00:00 IST");
-	printf(1," %d\n",y);
+	printf(1," %d 00:00:00 IST %d\n",d,y);
 }	
 
-// this function prints today's date and current time (UTC format)
+// UTC Format
 void utc_day()
 {
 	struct rtcdate r;
@@ -478,27 +496,27 @@ void utc_day()
 		printf(2, "date failed\n");
 		exit();
 	}
-	day_name(r.year,r.month,r.day);	 // prints the name of today's day of the week
-	month_name(r.month);  // prints the name of the today's month of the year
-	printf(1," %d",r.day);  // prints today's date
-	printf(1," %d:%d:%d",r.hour,r.minute,r.second);  // prints the current time (UTC format)
-	printf(1," UTC");
-	printf(1," %d\n",r.year);  // prints current year
+	day_name(r.year,r.month,r.day);	 // hari
+	month_name(r.month);  // bulan
+	printf(1," %d %d:%d:%d UTC %d\n",r.day,r.hour,r.minute,r.second,r.year);  // tanggal
 }
 	
-// this function checks which option is chosen by user
-// it then calls a suitable function to implement that option
+// opsi user
 void day(char *x)
 {
 	switch(*(x+2))
 	{
-		case 'd':today();
-		         break;
-		case 'm':tomorrow();
-		         break;
-		case 's':yesterday();
-		         break;
-		default:particular_day(x);
-			  break;
+		case 'd':
+			today(); // huruf ketiga d (sekarang)
+		        break;
+		case 'm':
+			tomorrow(); // huruf ketiga m (besok)
+		        break;
+		case 's':
+			yesterday(); // huruf ketiga s (kemarin)
+		        break;
+		default:
+			particular_day(x); // tanggal tertentu
+			break;
 	}
 }
