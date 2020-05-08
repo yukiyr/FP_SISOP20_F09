@@ -35,6 +35,6 @@ Surabaya
 **Command**
 - [x] Date
 - [x] Expand (Masih terdapat error)
-- [ ] Cal
+- [x] Cal (Masih terdapat error)
 - [x] Sort (Masih terdapat error)
 - [ ] Zip
